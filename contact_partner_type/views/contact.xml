@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="inherit_view_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.view.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                    <page name="commercial" string="Commercial">
+                        <group>
+                            <group>
+                                <field name="commercial_register" required="partner_type  in ('vendor','customer_vendor')"/>
+                                <field name="commercial_expiration" required="partner_type  in ('vendor','customer_vendor')"/>                    
+                            </group>
+
+                            <group>
+                                <field name="tax_card" required="partner_type  in ('vendor','customer_vendor')"/>
+                                <field name="tax_card_expiration" required="partner_type  in ('vendor','customer_vendor')"/>                    
+                            </group>                                                   
+                        </group>
+ 
+                    </page>
+
+                    <page name="attachments" string="Attachments">
+                        <group>
+                            <field name="commercial_regeister_attachment_ids" widget="many2many_binary" nolabel="1" required="partner_type  in ('vendor','customer_vendor')"/>                        
+                            <field name="has_commercial_register" nolabel="1"></field>
+                        </group>
+                        <group>
+                            <field name="company_profile_attachment_ids" widget="many2many_binary" nolabel="1"  required="partner_type  in ('vendor','customer_vendor')"/>                            
+                            <field name="has_company_profile" nolabel="1"></field>
+                        </group>
+                        <group>
+                            <field name="tax_card_attachment_ids" widget="many2many_binary" nolabel="1" required="partner_type  in ('vendor','customer_vendor')" />                        
+                            <field name="has_tax_card" nolabel="1"></field>
+                        </group>
+                        <group>
+                            <field name="vat_card_attachment_ids" widget="many2many_binary" nolabel="1" required="partner_type  in ('vendor','customer_vendor')"/>                        
+                            <field name="has_vat_card" nolabel="1"></field>
+                        </group>
+                        <group>                            
+                            <field name="trade_license_attachment_ids" widget="many2many_binary" nolabel="1"/>                        
+                            <field name="has_trade_license" nolabel="1"/>
+                        </group>
+                    </page>
+            </xpath>
+            <xpath expr="//field[@name='vat']" position="after">
+                <field name="partner_type"/>
+                <field name="contact_person_id" required="partner_type  in ('vendor','customer_vendor')"/>
+            </xpath>
+            <xpath expr="//field[@name='website']" position="attributes">
+                <attribute name="required">partner_type  in ('vendor','customer_vendor')</attribute>
+            </xpath>
+            <xpath expr="//field[@name='email']" position="attributes">
+                <attribute name="required">partner_type  in ('vendor','customer_vendor')</attribute>                
+            </xpath>
+            <xpath expr="//field[@name='phone']" position="attributes">
+                <attribute name="required">partner_type  in ('vendor','customer_vendor')</attribute>                
+            </xpath>
+             <xpath expr="//field[@name='mobile']" position="attributes">
+                <attribute name="required">partner_type  in ('vendor','customer_vendor')</attribute>                
+            </xpath>
+             <xpath expr="//field[@name='property_supplier_payment_term_id']" position="attributes">
+                 <attribute name="required">partner_type  in ('vendor','customer_vendor')</attribute>               
+            </xpath>
+             <xpath expr="//field[@name='street']" position="attributes">
+                 <attribute name="required">partner_type  in ('vendor','customer_vendor')</attribute>               
+            </xpath>
+             <xpath expr="//field[@name='street2']" position="attributes">
+                 <attribute name="required">partner_type  in ('vendor','customer_vendor')</attribute>               
+            </xpath>
+             <xpath expr="//field[@name='city']" position="attributes">
+                 <attribute name="required">partner_type  in ('vendor','customer_vendor')</attribute>               
+            </xpath>
+             <xpath expr="//field[@name='state_id']" position="attributes">
+                 <attribute name="required">partner_type  in ('vendor','customer_vendor')</attribute>               
+            </xpath>
+             <xpath expr="//field[@name='zip']" position="attributes">
+                 <attribute name="required">partner_type  in ('vendor','customer_vendor')</attribute>               
+            </xpath>
+             <xpath expr="//field[@name='country_id']" position="attributes">
+                 <attribute name="required">partner_type  in ('vendor','customer_vendor')</attribute>               
+            </xpath>
+
+            
+       </field>
+    </record>
+
+    <record id="inherit_view_view_partner_property_form" model="ir.ui.view">
+        <field name="name">res.partner.view.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="account.view_partner_property_form"/>
+        <field name="arch" type="xml">
+             <xpath expr="//field[@name='bank_ids']" position="attributes">
+                 <attribute name="widget"></attribute>             
+            </xpath>            
+        </field>
+    </record>
+
+    <record id="account.res_partner_action_customer" model="ir.actions.act_window">
+        <field name="context">{'res_partner_search_mode': 'customer', 'default_is_company': True, 'default_customer_rank': 1}</field>
+        <field name="domain">[('partner_type','in',('customer','customer_vendor'))]</field>        
+    </record>
+
+    <record id="account.res_partner_action_supplier" model="ir.actions.act_window">
+        <field name="context">{'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1}</field>
+        <field name="domain">[('partner_type','in',('vendor','customer_vendor'))]</field>
+    </record>
+
+</odoo>
